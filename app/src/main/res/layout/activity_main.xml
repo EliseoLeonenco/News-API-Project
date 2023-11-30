@@ -6,6 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <Button
+        android:id="@+id/start_btn"
+        android:layout_width="180dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="400dp"
+        android:text="Continue"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/quit_btn"
+        android:layout_width="180dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="30dp"
+        android:text="Quit"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/start_btn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
