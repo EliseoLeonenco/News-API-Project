@@ -1,20 +1,29 @@
 package com.example.newsapiproject
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var quit_btn: Button
+    private lateinit var quitBtn: Button
+    private lateinit var continueBtn: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        quit_btn = findViewById(R.id.quit_btn)
+        continueBtn = findViewById(R.id.continue_btn)
+        quitBtn = findViewById(R.id.quit_btn)
+
+        //continue button moves to NewsSearchActivity
+        continueBtn.setOnClickListener {
+            val intent = Intent(this, NewsSearchActivity::class.java);
+            startActivity(intent)
+        }
 
         //quit button exits the application
-        quit_btn.setOnClickListener {
+        quitBtn.setOnClickListener {
             finish()
         }
     }
