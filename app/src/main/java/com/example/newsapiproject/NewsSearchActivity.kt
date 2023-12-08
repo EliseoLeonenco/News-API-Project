@@ -15,6 +15,7 @@ import org.json.JSONException
 class NewsSearchActivity : AppCompatActivity() {
 
     private lateinit var data: TextView
+    private lateinit var article: Article
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +30,7 @@ class NewsSearchActivity : AppCompatActivity() {
 
     private fun updateArticles() {
         val url = "https://newsapi.org/v2/everything?q=bitcoin&searchIn=title&language=en&apiKey=710119f4520a4c25b4ab12e46322e7db"
+        val article = Article("", "", "", "")
 
         val jsonObjectRequest = object : JsonObjectRequest(
             Method.GET, url, null,
@@ -39,8 +41,11 @@ class NewsSearchActivity : AppCompatActivity() {
                 val articlesArray = response.optJSONArray("articles")
                 if (articlesArray != null && articlesArray.length() > 0) {
                     val firstArticle = articlesArray.getJSONObject(0)
-                    val title = firstArticle.optString("title", "No available title")
-                    data.text = title
+                    article.title = firstArticle.optString("title", "No available title")
+                    article.author = firstArticle.optString("author", "No available author")
+                    article.publishedDate = firstArticle.optString("publishAt", "No available author")
+                    article.urlSource = firstArticle.optString("url", "No available author")
+                    data.text = article.toString()
                 } else {
                     data.text = "No articles found"
                 }

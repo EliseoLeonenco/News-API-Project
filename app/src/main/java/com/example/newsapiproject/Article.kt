@@ -1,3 +1,5 @@
 package com.example.newsapiproject
 
-data class Article(val title: String, val description: String)
+import java.util.Date
+
+data class Article(var title: String, var author: String, var publishedDate: String, var urlSource:String)
