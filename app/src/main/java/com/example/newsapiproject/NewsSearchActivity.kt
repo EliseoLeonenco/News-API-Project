@@ -6,6 +6,8 @@ import android.util.Log
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.AuthFailureError
 import com.android.volley.Request
 import com.android.volley.Response
@@ -17,15 +19,12 @@ import java.time.LocalDate
 
 class NewsSearchActivity : AppCompatActivity() {
 
-    private lateinit var data: TextView
     private lateinit var article: Article
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news_search)
-
-        data = findViewById(R.id.data)
-
+        
         updateArticles()
 
     }
@@ -55,7 +54,9 @@ class NewsSearchActivity : AppCompatActivity() {
                         articlesList.add(article)
                     }
                     // Now you have all articles in articlesList
-                    data.text = articlesList.toString()
+                    val recyclerView = findViewById<RecyclerView>(R.id.articlesRecyclerView)
+                    recyclerView.layoutManager = LinearLayoutManager(this)
+                    recyclerView.adapter = ArticleAdapter(articlesList)
                 } else {
                     Log.d("API_RESPONSE", "No articles found")
                 }

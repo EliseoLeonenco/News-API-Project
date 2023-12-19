@@ -6,16 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".NewsSearchActivity">
 
-    <TextView
-        android:id="@+id/data"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/articlesRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="This is the data"
-        android:textAlignment="center"
-        android:textColor="#FF1F1F"
-        android:textSize="18sp"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
