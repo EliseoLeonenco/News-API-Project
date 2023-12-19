@@ -1,5 +1,5 @@
 package com.example.newsapiproject
 
-import java.util.Date
+import java.time.LocalDate
 
-data class Article(var title: String, var author: String, var publishedDate: String, var urlSource:String)
+data class Article(var title: String, var author: String, var publishedDate: LocalDate, var urlSource:String)
