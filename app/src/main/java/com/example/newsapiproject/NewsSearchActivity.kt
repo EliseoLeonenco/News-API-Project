@@ -1,11 +1,13 @@
 package com.example.newsapiproject
 
+import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.AuthFailureError
@@ -16,6 +18,8 @@ import com.android.volley.toolbox.Volley
 import org.json.JSONArray
 import org.json.JSONException
 import java.time.LocalDate
+import android.view.View
+
 
 class NewsSearchActivity : AppCompatActivity() {
 
@@ -24,14 +28,14 @@ class NewsSearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news_search)
-        
+
         updateArticles()
 
     }
 
 
     private fun updateArticles() {
-        val url = "https://newsapi.org/v2/everything?q=bitcoin&searchIn=title&language=en&apiKey=710119f4520a4c25b4ab12e46322e7db"
+        val url = "https://newsapi.org/v2/everything?q=environment&searchIn=title&language=en&apiKey=710119f4520a4c25b4ab12e46322e7db"
 
         val jsonObjectRequest = @RequiresApi(Build.VERSION_CODES.O)
         object : JsonObjectRequest(
@@ -57,6 +61,13 @@ class NewsSearchActivity : AppCompatActivity() {
                     val recyclerView = findViewById<RecyclerView>(R.id.articlesRecyclerView)
                     recyclerView.layoutManager = LinearLayoutManager(this)
                     recyclerView.adapter = ArticleAdapter(articlesList)
+
+                    // Add the divider
+                    val dividerItemDecoration = DividerItemDecoration(recyclerView.context, LinearLayoutManager.VERTICAL)
+                    recyclerView.addItemDecoration(dividerItemDecoration)
+                    // Devider spacing
+                    val spacingItemDecoration = SpacingItemDecoration(30) // 16dp spacing
+                    recyclerView.addItemDecoration(spacingItemDecoration)
                 } else {
                     Log.d("API_RESPONSE", "No articles found")
                 }
@@ -78,4 +89,14 @@ class NewsSearchActivity : AppCompatActivity() {
         }
         Volley.newRequestQueue(this).add(jsonObjectRequest)
     }
+
+    class SpacingItemDecoration(private val spaceHeight: Int) : RecyclerView.ItemDecoration() {
+        override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+            if (parent.getChildAdapterPosition(view) != parent.adapter?.itemCount?.minus(1)) {
+                outRect.bottom = spaceHeight
+                outRect.top = spaceHeight
+            }
+        }
+    }
+
 }

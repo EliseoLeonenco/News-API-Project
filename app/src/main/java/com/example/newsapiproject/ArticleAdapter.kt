@@ -10,7 +10,8 @@ class ArticleAdapter(private val articles: List<Article>) : RecyclerView.Adapter
 
     class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.article_title)
-        // Add other views you want to display in your RecyclerView item
+        val author: TextView = itemView.findViewById(R.id.article_author)
+        val publishedDate: TextView = itemView.findViewById(R.id.article_published_date)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
@@ -21,7 +22,8 @@ class ArticleAdapter(private val articles: List<Article>) : RecyclerView.Adapter
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
         val article = articles[position]
         holder.title.text = article.title
-        // Bind other data to your views
+        holder.author.text = article.author
+        holder.publishedDate.text = article.publishedDate.toString()
     }
 
     override fun getItemCount(): Int {
