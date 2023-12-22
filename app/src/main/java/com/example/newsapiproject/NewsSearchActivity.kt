@@ -1,41 +1,51 @@
 package com.example.newsapiproject
 
+import android.app.SearchManager
+import android.content.Context
 import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.AuthFailureError
-import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import org.json.JSONArray
-import org.json.JSONException
 import java.time.LocalDate
 import android.view.View
+import android.widget.Button
+import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 
 
 class NewsSearchActivity : AppCompatActivity() {
 
-    private lateinit var article: Article
-
+    private lateinit var searchView: SearchView
+    private lateinit var findButton: Button
+    private lateinit var spacingItemDecoration: SpacingItemDecoration
+    private lateinit var dividerItemDecoration: DividerItemDecoration
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news_search)
 
-        updateArticles()
+        searchView = findViewById<SearchView>(R.id.searchView)
+        findButton = findViewById<Button>(R.id.findButton)
 
+        findButton.setOnClickListener {
+            run {
+                val keyWord = searchView.query.toString()
+                updateArticles(keyWord)
+            }
+        }
     }
 
+    private fun updateArticles(keyWord: String) {
 
-    private fun updateArticles() {
-        val url = "https://newsapi.org/v2/everything?q=environment&searchIn=title&language=en&apiKey=710119f4520a4c25b4ab12e46322e7db"
+        val apiKey = "710119f4520a4c25b4ab12e46322e7db"
+        val url = "https://newsapi.org/v2/everything?q=$keyWord&searchIn=title&language=en&apiKey=$apiKey"
 
         val jsonObjectRequest = @RequiresApi(Build.VERSION_CODES.O)
         object : JsonObjectRequest(
@@ -50,10 +60,10 @@ class NewsSearchActivity : AppCompatActivity() {
                         val articleJson = articlesArray.getJSONObject(i)
                         val publishedDate = LocalDate.parse(articleJson.getString("publishedAt").split("T")[0])
                         val article = Article(
-                            title = articleJson.optString("title", "No available title"),
-                            author = articleJson.optString("author", "No available author"),
+                            title = articleJson.optString("title"),
+                            author = articleJson.optString("author"),
                             publishedDate = publishedDate,
-                            urlSource = articleJson.optString("url", "No available source")
+                            urlSource = articleJson.optString("url")
                         )
                         articlesList.add(article)
                     }
@@ -62,12 +72,21 @@ class NewsSearchActivity : AppCompatActivity() {
                     recyclerView.layoutManager = LinearLayoutManager(this)
                     recyclerView.adapter = ArticleAdapter(articlesList)
 
-                    // Add the divider
-                    val dividerItemDecoration = DividerItemDecoration(recyclerView.context, LinearLayoutManager.VERTICAL)
-                    recyclerView.addItemDecoration(dividerItemDecoration)
-                    // Devider spacing
-                    val spacingItemDecoration = SpacingItemDecoration(30) // 16dp spacing
+                    // Remove the existing SpacingItemDecoration and DividerItemDecoration if already exist
+                    if (::spacingItemDecoration.isInitialized) {
+                        recyclerView.removeItemDecoration(spacingItemDecoration)
+                    }
+                    if (::dividerItemDecoration.isInitialized) {
+                        recyclerView.removeItemDecoration(dividerItemDecoration)
+                    }
+
+                    // Add SpacingItemDecoration and DividerItemDecoration
+                    spacingItemDecoration = SpacingItemDecoration(30)
                     recyclerView.addItemDecoration(spacingItemDecoration)
+
+                    dividerItemDecoration = DividerItemDecoration(recyclerView.context, LinearLayoutManager.VERTICAL)
+                    recyclerView.addItemDecoration(dividerItemDecoration)
+
                 } else {
                     Log.d("API_RESPONSE", "No articles found")
                 }
@@ -95,6 +114,7 @@ class NewsSearchActivity : AppCompatActivity() {
             if (parent.getChildAdapterPosition(view) != parent.adapter?.itemCount?.minus(1)) {
                 outRect.bottom = spaceHeight
                 outRect.top = spaceHeight
+
             }
         }
     }
