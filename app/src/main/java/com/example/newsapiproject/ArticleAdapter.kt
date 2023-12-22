@@ -22,8 +22,13 @@ class ArticleAdapter(private val articles: List<Article>) : RecyclerView.Adapter
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
         val article = articles[position]
         holder.title.text = article.title
-        holder.author.text = article.author
         holder.publishedDate.text = article.publishedDate.toString()
+        if(article.author != "null"){
+            holder.author.text = article.author
+        } else {
+            holder.author.text = "No available author"
+        }
+
     }
 
     override fun getItemCount(): Int {
