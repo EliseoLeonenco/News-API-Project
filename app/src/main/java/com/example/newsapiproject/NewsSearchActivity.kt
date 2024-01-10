@@ -1,7 +1,5 @@
 package com.example.newsapiproject
 
-import android.app.SearchManager
-import android.content.Context
 import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
@@ -17,7 +15,6 @@ import com.android.volley.toolbox.Volley
 import java.time.LocalDate
 import android.view.View
 import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 
 
@@ -70,7 +67,7 @@ class NewsSearchActivity : AppCompatActivity() {
                     // Now you have all articles in articlesList
                     val recyclerView = findViewById<RecyclerView>(R.id.articlesRecyclerView)
                     recyclerView.layoutManager = LinearLayoutManager(this)
-                    recyclerView.adapter = ArticleAdapter(articlesList)
+                    recyclerView.adapter = ArticleAdapter(articlesList, this)
 
                     // Remove the existing SpacingItemDecoration and DividerItemDecoration if already exist
                     if (::spacingItemDecoration.isInitialized) {

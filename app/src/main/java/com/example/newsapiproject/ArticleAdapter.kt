@@ -1,12 +1,14 @@
 package com.example.newsapiproject
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
 import android.widget.TextView
 
-class ArticleAdapter(private val articles: List<Article>) : RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>() {
+class ArticleAdapter(private val articles: List<Article>, private val context: Context) : RecyclerView.Adapter<ArticleAdapter.ArticleViewHolder>() {
 
     class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.article_title)
@@ -29,6 +31,12 @@ class ArticleAdapter(private val articles: List<Article>) : RecyclerView.Adapter
             holder.author.text = "No available author"
         }
 
+        // Set OnClickListener for each item
+        holder.itemView.setOnClickListener {
+            val intent = Intent(context, WebViewActivity::class.java)
+            intent.putExtra("URL", article.urlSource)
+            context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int {
