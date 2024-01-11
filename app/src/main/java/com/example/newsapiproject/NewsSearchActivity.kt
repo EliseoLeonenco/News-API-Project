@@ -3,6 +3,7 @@ package com.example.newsapiproject
 import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -16,26 +17,52 @@ import java.time.LocalDate
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.widget.SearchView
+import java.util.*
 
 
-class NewsSearchActivity : AppCompatActivity() {
+class NewsSearchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private lateinit var searchView: SearchView
     private lateinit var findButton: Button
     private lateinit var spacingItemDecoration: SpacingItemDecoration
     private lateinit var dividerItemDecoration: DividerItemDecoration
+    private lateinit var tts: TextToSpeech
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news_search)
 
+
         searchView = findViewById<SearchView>(R.id.searchView)
         findButton = findViewById<Button>(R.id.findButton)
+        tts = TextToSpeech(this, this)
 
         findButton.setOnClickListener {
             run {
                 val keyWord = searchView.query.toString()
                 updateArticles(keyWord)
             }
+        }
+
+
+
+    }
+    override fun onInit(status: Int) {
+        if (status == TextToSpeech.SUCCESS) {
+            val result = tts.setLanguage(Locale.ENGLISH)
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e("TTS", "This Language is not supported")
+            } else {
+                // Ready to speak
+            }
+        } else {
+            Log.e("TTS", "Initialization Failed!")
+        }
+    }
+
+    fun speakOut(text: String) {
+        val speechStatus = tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")
+        if (speechStatus == TextToSpeech.ERROR) {
+            Log.e("TTS", "Speech synthesis failed")
         }
     }
 
@@ -115,5 +142,7 @@ class NewsSearchActivity : AppCompatActivity() {
             }
         }
     }
+
+
 
 }
