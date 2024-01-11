@@ -7,6 +7,7 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 
@@ -26,7 +27,7 @@ class WebViewActivity : AppCompatActivity() {
         if (url != null) {
             webView.loadUrl(url)
         } else {
-            //TOAST
+            Toast.makeText(this, "No available source", Toast.LENGTH_LONG)
         }
 
 
