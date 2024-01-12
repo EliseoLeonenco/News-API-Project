@@ -27,6 +27,7 @@ class NewsSearchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private lateinit var spacingItemDecoration: SpacingItemDecoration
     private lateinit var dividerItemDecoration: DividerItemDecoration
     private lateinit var tts: TextToSpeech
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news_search)
@@ -42,6 +43,7 @@ class NewsSearchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             }
         }
     }
+
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
             val result = tts.setLanguage(Locale.ENGLISH)

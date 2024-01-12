@@ -16,13 +16,13 @@ class MainActivity : AppCompatActivity() {
         continueBtn = findViewById(R.id.continue_btn)
         quitBtn = findViewById(R.id.quit_btn)
 
-        //continue button moves to NewsSearchActivity
+        // continue button moves to NewsSearchActivity
         continueBtn.setOnClickListener {
             val intent = Intent(this, NewsSearchActivity::class.java);
             startActivity(intent)
         }
 
-        //quit button exits the application
+        // Quit button exits the application
         quitBtn.setOnClickListener {
             finish()
         }

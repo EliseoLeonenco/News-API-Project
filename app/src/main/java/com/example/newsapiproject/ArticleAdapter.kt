@@ -27,6 +27,7 @@ class ArticleAdapter(private val articles: List<Article>, private val context: C
         val article = articles[position]
         holder.title.text = article.title
         holder.publishedDate.text = article.publishedDate.toString()
+
         if(article.author != "null"){
             holder.author.text = article.author
         } else {
