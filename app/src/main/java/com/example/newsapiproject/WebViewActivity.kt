@@ -20,7 +20,7 @@ class WebViewActivity : AppCompatActivity() {
         val webView: WebView = findViewById(R.id.webview)
         webView.settings.javaScriptEnabled = true
 
-        // Set cache mode to LOAD_CACHE_ELSE_NETWORK
+        // Set cache mode to LOAD_CACHE_ELSE_NETWORK (helps wit performance)
         webView.settings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
 
         val url = intent.getStringExtra("URL")
@@ -29,7 +29,6 @@ class WebViewActivity : AppCompatActivity() {
         } else {
             Toast.makeText(this, "No available source", Toast.LENGTH_LONG)
         }
-
 
         // Override shouldOverrideUrlLoading
         webView.webViewClient = object : WebViewClient() {
@@ -41,6 +40,5 @@ class WebViewActivity : AppCompatActivity() {
                 return true
             }
         }
-
     }
 }
