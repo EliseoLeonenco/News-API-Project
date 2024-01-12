@@ -31,7 +31,6 @@ class NewsSearchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news_search)
 
-
         searchView = findViewById<SearchView>(R.id.searchView)
         findButton = findViewById<Button>(R.id.findButton)
         tts = TextToSpeech(this, this)
@@ -42,20 +41,17 @@ class NewsSearchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 updateArticles(keyWord)
             }
         }
-
-
-
     }
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
             val result = tts.setLanguage(Locale.ENGLISH)
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                Log.e("TTS", "This Language is not supported")
+                Log.e("TTS", "Language is not supported")
             } else {
-                // Ready to speak
+                // Ready
             }
         } else {
-            Log.e("TTS", "Initialization Failed!")
+            Log.e("TTS", "Initialization fail")
         }
     }
 
@@ -91,12 +87,12 @@ class NewsSearchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                         )
                         articlesList.add(article)
                     }
-                    // Now you have all articles in articlesList
+                    // All articles in articlesList
                     val recyclerView = findViewById<RecyclerView>(R.id.articlesRecyclerView)
                     recyclerView.layoutManager = LinearLayoutManager(this)
                     recyclerView.adapter = ArticleAdapter(articlesList, this)
 
-                    // Remove the existing SpacingItemDecoration and DividerItemDecoration if already exist
+                    // Remove existing SpacingItemDecoration and DividerItemDecoration if already exist (to stop it from adding continuously adding spacing)
                     if (::spacingItemDecoration.isInitialized) {
                         recyclerView.removeItemDecoration(spacingItemDecoration)
                     }
@@ -124,6 +120,7 @@ class NewsSearchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 }
             }
         ) {
+            // Add headers
             override fun getHeaders(): Map<String, String>? {
                 val headers = HashMap<String, String>()
                 headers["User-Agent"] = "Mozilla/5.0"
